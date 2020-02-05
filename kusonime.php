@@ -3,6 +3,7 @@
 class Kusonime{
 	
 	public static $link;
+	public static $page;
 	public static $resolusi;
 
 	public static function getPage(){
@@ -16,7 +17,7 @@ class Kusonime{
 	}
 
 	public static function getKey(){
-		foreach (self::getPage()->page as $value) {
+		foreach (self::$page->page as $value) {
 			preg_match_all("/<strong>(.*?)<\/strong>/i", $value, $res);
 			$resolusi[] = $res[1];
 		}
@@ -27,7 +28,7 @@ class Kusonime{
 	}
 
 	public static function getLink(){
-		foreach (self::getPage()->page as $value) {
+		foreach (self::$page->page as $value) {
 			preg_match_all("/<strong>(.*?)<\/strong>/i", $value, $res);
 			$reso = self::getKey();
 			if ($res[1][0] == $reso[self::$resolusi]) {
@@ -44,7 +45,8 @@ class Kusonime{
 	public static function kuso(){
 		self::$link = readline("Masukan link anime: ");
 		echo "\n";
-		echo "JUDUL ANIME: ".self::getPage()->judul."\n";
+		self::$page = self::getPage();
+		echo "JUDUL ANIME: ".self::$page->judul."\n";
 		echo "PILIHAN RESOLUSI: ";
 		print_r(self::getKey());
 		self::$resolusi = readline("Pilih Resolusi Nomor : ");
